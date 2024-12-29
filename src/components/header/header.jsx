@@ -9,9 +9,9 @@ const Header = () => {
       <header className="w-[90%] h-[60px]  flex items-center justify-between ">
         <h2 className="text-[20px] font-semibold"> UniWorkout</h2>
         <nav className="flex gap-x-[12px]  ">
-          <Link to="#" className=' hidden sm:block'><img src={Workout} alt="" /></Link>
-          <Link to="#" className=' hidden sm:block'><img src={Profile} alt="" /></Link>
-          <Link to="/login"><img src={Exit} alt=""/></Link>
+          <Link to="/workoutpage" className=' hidden sm:block'><img src={Workout} alt="" /></Link>
+          <Link to="/" className=' hidden sm:block'><img src={Profile} alt="" /></Link>
+          <Link to="/login" onClick={() => {localStorage.removeItem('token')}}><img src={Exit} alt=""/></Link>
         </nav>
       </header>
     </div>

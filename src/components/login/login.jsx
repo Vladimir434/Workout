@@ -1,24 +1,50 @@
-import { Link } from "react-router-dom";
+/* eslint-disable no-unused-vars */
+import { Link, useNavigate } from "react-router-dom";
 import { authApi } from "../../api/auth.api";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [isCheck, setisCheck] = useState(false);
+  const nav = useNavigate();
 
-  const onHendle = async (e) => {
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+    const password = localStorage.getItem("password");
+    if (email && password) {
+      setEmail(email);
+      setPassword(password);
+      setisCheck(true);
+    }
+  }, []);
+
+  const onHandle = async (e) => {
     e.preventDefault();
-    await authApi.login({
-      email,
-      password,
-    });
+    try {
+      await authApi.login({
+        email,
+        password,
+        nav,
+      });
+
+      if (isCheck) {
+        localStorage.setItem('email', email)
+      }else {
+        localStorage.removeItem('email')
+      }
+    } catch (error) {
+      toast.error('Произошла ощибка при вводе');
+      
+    }
   };
 
   return (
     <>
       <section className="bg-[#fff] sm:bg-[#E9E9E9] min-h-dvh flex justify-center items-center">
         <form
-          onSubmit={onHendle}
+          onSubmit={onHandle}
           className="sm:shadow-2xl p-[12px] sm:p-[46px] w-full sm:w-[85%] lg:w-[46%] rounded-[23px] bg-[#fff] max-w-[672px]"
         >
           <h1 className="mb-[30px] text-[32px] text-center font-bold">
@@ -45,7 +71,11 @@ const Login = () => {
             />
           </div>
           <label className="flex justify-center mt-[24px] mb-[41px] sm:mt-[19px] sm:mb-[31px] gap-x-[6px]">
-            <input type="checkbox" />
+            <input
+              type="checkbox"
+              onChange={(e) => setisCheck(e.target.checked)}
+              checked={isCheck}
+            />
             Запомнить меня
           </label>
           <div className="flex justify-center items-center">
@@ -54,7 +84,7 @@ const Login = () => {
             </button>
           </div>
           <div className="text-center">
-            Нету аккаунта?{" "}
+            Нету аккаунта?
             <Link to="/registration" className="text-[#325BC2]">
               Создать
             </Link>

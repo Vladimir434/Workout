@@ -5,6 +5,10 @@ import MainPage from "./components/main-page/page";
 import Registration from "./components/registration/registration";
 import Login from "./components/login/login";
 import WithAuth from "./Hoc/withAuth";
+import WorkoutPage from "./components/workout/workout-page";
+import ExerciseForm from "./components/create-xercise/exercise-creation-page";
+import CreateWorkout from "./components/create-workout/create-workout-page";
+import WorkoutDetails from "./components/workiut-details/workout-details";
 
 function App() {
   // useEffect(() => {
@@ -27,6 +31,10 @@ function App() {
           <Route path="/registration" element={<Registration/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/" element={<WithAuth><MainPage/></WithAuth> }/>
+          <Route path="/workoutpage" element={<WithAuth> <WorkoutPage/></WithAuth>}/>
+          <Route path="/workoutpage/:id" element={<WithAuth> <WorkoutDetails/></WithAuth>}/>
+          <Route path="/createexercise" element={<WithAuth><ExerciseForm/></WithAuth>}/>
+          <Route path="/create-workout" element={<WithAuth><CreateWorkout/></WithAuth>}/>
         </Routes>
       </AuthProvider>
     </>

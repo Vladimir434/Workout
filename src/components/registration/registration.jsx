@@ -1,29 +1,52 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { authApi } from "../../api/auth.api";
+import { toast } from "react-toastify";
 
 const Registration = () => {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [isCheck, setIsCheck] = useState(false);
+
+  useEffect(() => {
+    const email = localStorage.getItem("email");
+    const password = localStorage.getItem("password");
+    if (email && password) {
+      setEmail(email);
+      setPassword(password);
+      setIsCheck(true);
+    }
+  }, []);
   const navigate = useNavigate();
 
-  const onHendle = async (e) => {
+  const onHandle = async (e) => {
     e.preventDefault();
-    await authApi.register({
-      email,
-      first_name: name,
-      last_name: lastName,
-      password,
-      nav: navigate,
-    });
+    try {
+      await authApi.register({
+        email,
+        first_name: name,
+        last_name: lastName,
+        password,
+        nav: navigate,
+      });
+
+      if (isCheck) {
+        localStorage.setItem("email", email);
+      } else {
+        localStorage.removeItem("email");
+      }
+    } catch (error) {
+      toast.error("Произошла ошибка");
+    }
   };
 
   return (
     <section className="bg-[#fff] sm:bg-[#E9E9E9] min-h-dvh flex justify-center items-center">
       <form
-        onSubmit={onHendle}
+        onSubmit={onHandle}
         className="sm:shadow-2xl p-[12px] sm:p-[46px] w-full sm:w-[85%] lg:w-[46%] rounded-[23px] max-w-[672px] bg-[#fff]"
       >
         <h1 className="mb-[30px] text-[32px] text-center font-bold">
@@ -74,7 +97,7 @@ const Registration = () => {
           />
         </div>
         <label className="flex justify-center mt-[19px] mb-[66px] sm:mb-[31px] gap-x-[6px]">
-          <input type="checkbox" />
+          <input type="checkbox" checked={isCheck} onChange={(e) =>  setIsCheck(e.target.checked)}/>
           Запомнить меня
         </label>
         <div className="flex justify-center items-center">
@@ -83,7 +106,7 @@ const Registration = () => {
           </button>
         </div>
         <div className="text-center">
-          Нету аккаунта?{" "}
+          Нету аккаунта?
           <Link to={"/login"} className="text-[#325BC2]">
             Войти
           </Link>
