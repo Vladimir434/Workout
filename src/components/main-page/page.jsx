@@ -6,6 +6,7 @@ import Profile from "../../assets/Profile.svg";
 import Header from "../header/header";
 import { useEffect, useState } from "react";
 import { userApi } from "../../api/profiile.api";
+import { Link } from "react-router-dom";
 
 const MainPage = () => {
   const [profile, setProfile] = useState();
@@ -62,14 +63,14 @@ const MainPage = () => {
           </div>
         </div>
         <footer className=" sm:hidden w-[100%] h-[60px] flex justify-center items-center gap-x-[52px] fixed bottom-0">
-          <div className="flex flex-col items-center justify-center">
+          <Link to={'/workoutpage'} className="flex flex-col items-center justify-center">
             <img src={Workout} alt="not foud" />
             <h2 className="font-semibold text-[14px]">Workout</h2>
-          </div>
-          <div className="flex flex-col items-center justify-center">
+          </Link>
+          <Link to={'/'} className="flex flex-col items-center justify-center">
             <img src={Profile} alt="not foud" />
             <h2 className="font-semibold text-[14px]">Workout</h2>
-          </div>
+          </Link>
         </footer>
       </div>
     </>

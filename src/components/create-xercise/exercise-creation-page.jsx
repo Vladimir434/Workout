@@ -1,8 +1,10 @@
 import { useState } from "react";
 import useExerciseStore from "./store";
-
+import Workout from "../../assets/workout.svg";
+import Profile from "../../assets/Profile.svg";
 import IconExercise from "../../assets/icon-exercise.svg";
 import Header from "../header/header";
+import { Link } from "react-router-dom";
 
 const iconOptions = [
   {
@@ -38,7 +40,7 @@ const ExerciseForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await addExercise({ name, times: Number(times), iconPath:iconPath.name });
+    await addExercise({ name, times: Number(times), iconPath: iconPath.name });
     setName("");
     setTimes("");
   };
@@ -47,16 +49,16 @@ const ExerciseForm = () => {
     <>
       <Header />
       <section
-        className="relative w-full h-[410px] bg-no-repeat bg-cover"
+        className="relative w-full h-[244px] sm:h-[410px] bg-no-repeat bg-cover rounded-[11px]"
         style={{ backgroundImage: `url(${IconExercise})` }}
       >
-        <h1 className=" text-[#fff] absolute top-[300px] left-[50px] text-[52px] font-bold">
+        <h1 className=" text-[#fff] absolute top-[120px] sm:top-[260px] left-[10px] sm:left-[50px] text-[28px] sm:text-[42px] md:text-[52px] font-normal sm:font-bold">
           Создание нового упражнения
         </h1>
       </section>
       <div className="flex justify-center items-center">
         <form
-          className=" max-w-[678px] w-[46%] mt-[88px] mb-[296px] flex flex-col justify-center "
+          className="p-[20px] max-w-[678px] w-full mt-[88px] mb-[296px] flex flex-col justify-center "
           onSubmit={handleSubmit}
         >
           <div>
@@ -64,6 +66,7 @@ const ExerciseForm = () => {
               Название
             </label>
             <input
+              required
               className="text-[14px] font-normal pl-[16px] w-full border-[1px] border-[#5065EB] rounded-[6px] h-[32px] outline-none mb-[25px]"
               type="text"
               placeholder="Название упражнения"
@@ -76,7 +79,8 @@ const ExerciseForm = () => {
               Количество повторений
             </label>
             <input
-              className="text-[14px] font-normal pl-[16px] w-full border-[1px] border-[#5065EB] rounded-[6px] h-[32px] outline-none mb-[25px]"
+              required
+              className="text-[14px] font-normal pl-[16px] w-full border-[1px] border-[#5065EB] rounded-[6px] h-[32px] outline-none mb-[33px] sm:mb-[25px]"
               type="number"
               placeholder="Количество повторений"
               value={times}
@@ -84,7 +88,7 @@ const ExerciseForm = () => {
             />
           </div>
 
-          <div className="flex gap-x-[10px] mb-[20px] justify-center">
+          <div className="flex gap-x-[10px] mb-[44px] sm:mb-[52px] justify-center">
             {iconOptions.map((icon) => (
               <div
                 key={icon.path}
@@ -118,6 +122,17 @@ const ExerciseForm = () => {
           </button>
         </form>
       </div>
+      <footer className=" sm:hidden w-[100%] h-[60px] flex justify-center items-center gap-x-[52px] fixed bottom-0">
+          <Link to={'/workoutpage'} className="flex flex-col items-center justify-center">
+            <img src={Workout} alt="not foud" />
+            <h2 className="font-semibold text-[14px]">Workout</h2>
+          </Link>
+          <Link to={'/'} className="flex flex-col items-center justify-center">
+            <img src={Profile} alt="not foud" />
+            <h2 className="font-semibold text-[14px]">Workout</h2>
+          </Link>
+        </footer>
+
     </>
   );
 };

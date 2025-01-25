@@ -6,7 +6,8 @@ export default {
   ],
   theme: {
     extend: {
-      colors:{
+      screens:{
+        'vs': '520px'
       }
     },
   },

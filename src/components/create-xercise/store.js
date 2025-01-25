@@ -26,8 +26,9 @@ const useExerciseStore = create((set) => ({
         exercises: [...state.exercises, res.data],
         loading: false,
       }));
-    } catch (err) {
-      toast.error("Ошибка при добавлении упражнения", err);
+      toast('Вы успешно создали тренировку')
+    } catch (error) {
+      toast.error("Ошибка при добавлении упражнения", error);
       set({ error: "Ошибка при добавлении упражнения", loading: false });
     }
   },

@@ -26,27 +26,30 @@ const ClickMi = create((set) => ({
     }
   },
 
-  selectedExercises: async ({name, exercisesId}) => {
+  selectedExercises: async ({ name, exercisesId }) => {
     const token = localStorage.getItem("token");
-    set({ loading: true, error: null });
-    const arr = [27, 26]
 
-    const d = await JSON.stringify(arr)
+    const exerciseIdsJson = JSON.stringify(exercisesId);
+  
     try {
-      const selected = instance.post("/workouts", {
-        name,
-        exerciseIds : d
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
+      const response = await instance.post(
+        "/workouts",
+        {
+          name,
+          exerciseIds: exerciseIdsJson,
         },
-      });
-      console.log(selected.data);
-      
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Тренировка успешно создана:", response.data);
+      toast.success("Тренировка успешно создана!");
     } catch (error) {
-      toast.error("Ошибка при получении данных", error);
+      console.error("Ошибка при создании тренировки:", error.response?.data || error.message);
+      toast.error("Ошибка при создании тренировки");
     }
-  },
-}));
+  },}));
 
 export default ClickMi;
